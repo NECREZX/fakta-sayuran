@@ -13,9 +13,19 @@ if (workbox) {
     { url: 'assets/js/services/detection.service.js', revision: '1' },
     { url: 'assets/js/services/facts.service.js', revision: '1' },
     { url: 'assets/js/ui/ui.handler.js', revision: '1' },
-    { url: 'manifest.json', revision: '1' }
+    { url: 'manifest.json', revision: '1' },
+    { url: 'model/model.json', revision: '1' },
+    { url: 'model/metadata.json', revision: '1' },
+    { url: 'model/weights.bin', revision: '1' },
+    { url: '/', revision: '1' }
   ]);
   
+  workbox.routing.registerRoute(
+    ({url}) => url.origin === 'https://huggingface.co' || url.origin === 'https://cdn.jsdelivr.net',
+    new workbox.strategies.CacheFirst({
+      cacheName: 'external-models-cache',
+    })
+  );
 } else {
   console.log("Workbox didn't load");
 }

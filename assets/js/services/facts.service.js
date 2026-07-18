@@ -41,10 +41,16 @@ class FunFactService {
 		try {
 			this.isGenerating = true;
 			const cleanVeg = vegetable.replace(/[^a-zA-Z0-9 ]/g, '').substring(0, 50);
-			const prompt = `Provide one short fun fact about ${cleanVeg}.`;
+			// Gunakan prompt yang lebih spesifik sesuai saran reviewer
+			const prompt = `Write exactly one short, accurate, and interesting botanical fact about the vegetable ${cleanVeg}. Do not mention any other plants or topics.`;
 			
-			// Use greedy decoding (do_sample: false) for maximum speed and determinism
-			const result = await this.generator(prompt, { max_new_tokens: 30 });
+			// Tambahkan parameter temperature dan top_p untuk mencegah halusinasi
+			const result = await this.generator(prompt, { 
+				max_new_tokens: 30,
+				temperature: 0.3,
+				top_p: 0.9,
+				do_sample: true
+			});
 			
 			let generatedText = result[0].generated_text.trim();
 			return generatedText;
