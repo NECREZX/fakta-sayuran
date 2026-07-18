@@ -1,1 +1,31 @@
 APP_URL=https://fakta-sayuran.netlify.app/
+
+=======================================================
+PANDUAN PENGGUNAAN APLIKASI (Untuk Reviewer)
+=======================================================
+
+1. PERSIAPAN AWAL (SANGAT PENTING)
+   - Pastikan Anda melakukan Hard Reload (Ctrl + F5) atau Clear Cache terlebih dahulu untuk memastikan Service Worker dan file JS yang baru termuat.
+   - Izinkan akses kamera pada browser ketika pop-up muncul.
+   - Tunggu beberapa detik hingga indikator di pojok kanan atas berubah menjadi "Siap" (Warna hijau). Ini menandakan model TensorFlow.js dan Transformers.js sudah berhasil diunduh ke cache browser.
+
+2. CARA MENDETEKSI SAYURAN
+   - Arahkan kamera ke sayuran (Wortel, Brokoli, dll) secara stabil.
+   - Pastikan pencahayaan cukup terang.
+   - Aplikasi akan otomatis memindai dan membekukan (freeze) frame kamera seketika setelah mendeteksi sayuran dengan tingkat keyakinan (confidence) di atas 60%.
+
+3. MELIHAT HASIL & FAKTA UNIK
+   - Setelah sayuran terdeteksi, aplikasi akan menghasilkan fakta botani singkat menggunakan Generative AI (Transformers.js).
+   - Harap tunggu sekitar 1-3 detik untuk proses inferensi teks.
+   - Setelah fakta muncul, Anda memiliki waktu 6 detik untuk membacanya sebelum aplikasi otomatis memuat ulang (reload) kamera untuk mendeteksi sayuran berikutnya.
+
+4. CARA MENGUJI FITUR OFFLINE (PWA)
+   - Buka DevTools (F12) -> Buka tab Network.
+   - Ubah mode "No throttling" menjadi "Offline".
+   - Refresh halaman (F5). 
+   - Aplikasi, kamera, model deteksi, dan model AI akan tetap berjalan sempurna tanpa koneksi internet.
+
+5. CATATAN DEBUGGING
+   - Sesuai instruksi, saya telah menambahkan `console.log('Hasil deteksi:', result);` di dalam fungsi `predict()`.
+   - Anda dapat membuka Console di DevTools untuk melihat hasil klasifikasi mentah dari model TensorFlow.js yang berjalan secara real-time.
+   - Aturan deteksi yang sebelumnya terlalu ketat (membutuhkan 5 frame berturut-turut) telah dihapus sehingga aplikasi akan jauh lebih responsif.
