@@ -17,15 +17,13 @@ if (workbox) {
     { url: 'model/model.json', revision: '1' },
     { url: 'model/metadata.json', revision: '1' },
     { url: 'model/weights.bin', revision: '1' },
+    { url: 'assets/icons/icon-192x192.png', revision: '1' },
+    { url: 'assets/icons/icon-512x512.png', revision: '1' },
+    { url: 'assets/icons/apple-touch-icon.png', revision: '1' },
+    { url: 'assets/icons/favicon.ico', revision: '1' },
     { url: '/', revision: '1' }
   ]);
-  
-  workbox.routing.registerRoute(
-    ({url}) => url.origin === 'https://huggingface.co' || url.origin === 'https://cdn.jsdelivr.net',
-    new workbox.strategies.CacheFirst({
-      cacheName: 'external-models-cache',
-    })
-  );
+
 } else {
   console.log("Workbox didn't load");
 }
