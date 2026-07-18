@@ -135,31 +135,19 @@ class RootFactsApp {
 		try {
 			if (this.detector.isLoaded() && this.camera.isReady()) {
 				const result = await this.detector.predict(this.camera.video);
+				console.log('Hasil deteksi:', result); // Debugging hasil klasifikasi model tensorflow.js
 				
 				if (result && result.confidence >= this.config.detectionConfidenceThreshold) {
-					if (this.lastDetectedLabel === result.label) {
-						this.consecutiveDetections = (this.consecutiveDetections || 0) + 1;
-					} else {
-						this.lastDetectedLabel = result.label;
-						this.consecutiveDetections = 1;
+					if (this.camera && this.camera.video) {
+						this.camera.video.pause(); // Freeze camera frame
 					}
-
-					// Require 5 consecutive frames (about 0.5s) to confirm detection
-					if (this.consecutiveDetections >= 5) {
-						this.consecutiveDetections = 0;
-						if (this.camera && this.camera.video) {
-							this.camera.video.pause(); // Freeze camera frame
-						}
-						this.ui.showResults({
-							className: result.label,
-							confidence: Math.round(result.confidence)
-						}, null);
-						this.stopDetection(); // Stop detecting when a confident prediction is made
-						await this.generateAndShowResults(result);
-						return;
-					}
-				} else {
-					this.consecutiveDetections = 0;
+					this.ui.showResults({
+						className: result.label,
+						confidence: Math.round(result.confidence)
+					}, null);
+					this.stopDetection(); // Stop detecting when a confident prediction is made
+					await this.generateAndShowResults(result);
+					return;
 				}
 			}
 		} catch (error) {

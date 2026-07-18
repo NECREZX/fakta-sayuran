@@ -1,5 +1,5 @@
 export const APP_CONFIG = {
-  detectionConfidenceThreshold: 70,
+  detectionConfidenceThreshold: 60,
   analyzingDelay: 2000,
   funFactGenerationDelay: 2000,
   detectionRetryInterval: 100
